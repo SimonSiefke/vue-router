@@ -37,7 +37,7 @@ export function createRouteMap (
   if (process.env.NODE_ENV === 'development') {
     // warn if routes do not include leading slashes
     const found = pathList
-    // check for missing leading slash
+      // check for missing leading slash
       .filter(path => path && path.charAt(0) !== '*' && path.charAt(0) !== '/')
 
     if (found.length > 0) {
@@ -69,6 +69,12 @@ function addRouteRecord (
       `route config "component" for path: ${String(
         path || name
       )} cannot be a ` + `string id. Use an actual component instead.`
+    )
+    assert(
+      route.component.toString() !== '[object Promise]',
+      `route config "component" for path: ${String(
+        path || name
+      )} cannot be a promise. Use a function that returns a promise instead (e.g. \`() => import ('./components/About.vue')\`)`
     )
   }
 
@@ -112,12 +118,12 @@ function addRouteRecord (
         warn(
           false,
           `Named Route '${route.name}' has a default child route. ` +
-            `When navigating to this named route (:to="{name: '${
-              route.name
-            }'"), ` +
-            `the default child route will not be rendered. Remove the name from ` +
-            `this route and use the name of the default child route for named ` +
-            `links instead.`
+          `When navigating to this named route (:to="{name: '${
+            route.name
+          }'"), ` +
+          `the default child route will not be rendered. Remove the name from ` +
+          `this route and use the name of the default child route for named ` +
+          `links instead.`
         )
       }
     }
@@ -169,7 +175,7 @@ function addRouteRecord (
       warn(
         false,
         `Duplicate named routes definition: ` +
-          `{ name: "${name}", path: "${record.path}" }`
+        `{ name: "${name}", path: "${record.path}" }`
       )
     }
   }
